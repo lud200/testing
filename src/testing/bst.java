@@ -23,7 +23,8 @@ public class bst implements Runnable{
 //		b1.insert(16);
 //		b1.insert(18);
 		b1.preorder();
-		b1.deleteNode(17);
+//		b1.deleteNode(19);
+		b1.deleteNode(18);
 		System.out.println();
 //		b1.mirror();
 		b1.preorder();
@@ -112,27 +113,108 @@ class Tree{
 //		}
 //	}
 	public void deleteNode(int data){
-		Node x, xsucc, parent;
-		x=search(data);
-		System.out.println("value="+x.data);
-		/*If the node has two children*/
-		if(x.left!=null && x.right!=null){
-			parent=x;
-			xsucc=x.right;
-			while(xsucc.left!=null){
-				parent=xsucc;
-				xsucc=xsucc.left;
-			}
-			x.data=xsucc.data;
-//			x.right=null;
-			xsucc.data=0;
-			xsucc=null;
-			
-//			xsucc.left=x.left;
-//			parent.right=xsucc.right;
-//			parent.left=null;
+		boolean found=false;
+		if(root==null){
+			System.out.println("empty tree");
 		}
+		Node current=root;
+		Node parent=null;
+		while(current!=null){
+			if(current.data==data){
+				found=true;
+				break;
+			}
+			else{
+				parent=current;
+				if(current.data<data){
+					current=current.right;
+				}
+				else{
+					current=current.left;
+				}
+			}
+		}
+		if(found==false){
+			System.out.println("data not found");
+		}
+		
+		/*The node does not have children*/
+		if(current.left==null && current.right==null){
+			if(parent.left==current){
+				parent.left=null;
+				current=null;
+			}
+			else{
+				parent.right=null;
+				current=null;
+			}
+		}
+		/*If the node has one child*/
+			if(current.right!=null && current.left==null){
+				if(parent.left==current){
+					parent.left=current.right;
+					current=null;
+				}
+				else{
+					parent.right=current.right;
+					current=null;
+				}
+			}
+			if(current.right==null && current.left!=null){
+				if(parent.left==current){
+					parent.left=current.left;
+					current=null;
+				}
+				else{
+					parent.right=current.left;
+					current=null;
+				}
+			}
+			/*If the node has two children*/
+			if(current.left!=null && current.right!=null){
+				Node test=current.right;
+				if(test.left==null && test.right==null){
+					current=test;
+					current.right=null;
+				}
+				else{
+					while(test.left!=null){
+						parent=test;
+						test=test.left;
+					}
+					current.data=test.data;
+					test=null;
+				}
+			}
 	}
+		
+//		Node x, xsucc, parent;
+//		x=search(data);
+//		System.out.println("value="+x.data);
+//		/*If the node has two children*/
+//		if(x.left!=null && x.right!=null){
+//			parent=x;
+//			xsucc=x.right;
+//			while(xsucc.left!=null){
+//				parent=xsucc;
+//				xsucc=xsucc.left;
+//			}
+//			x.data=xsucc.data;
+////			x.right=null;
+//			xsucc.data=0;
+//			xsucc=null;
+//			
+////			xsucc.left=x.left;
+////			parent.right=xsucc.right;
+////			parent.left=null;
+//		}
+//		/*if the node has no children*/
+//		if(x.left==null && x.right==null){
+//			x.data=0;
+//			x=null;
+//		}
+//		/*if node has only left child*/
+		
 	public Node search(int data){
 		return search(root, data);
 	}

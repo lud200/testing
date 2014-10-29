@@ -3,6 +3,11 @@ package testing;
 public class longtoString {
 public static void main(String[] args){
 	String s="1992";
+	String s1=null;
+//	s1=s1+1;
+	Integer i=null;
+	i=i*i;
+	System.out.println(s1+"  "+i);
 	long l=stringLong(s);
 	if(l==1992)
 		System.out.println("true");
